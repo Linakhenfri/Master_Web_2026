@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* 🔥 هذا هو السطر المفقود */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #cd6dab;
+  --color-secondary: #ede9c0;
+  --color-accent: #FBBF24;
+  --color-background: #fff7ed;
+  --color-textDark: #1f2937;
+}

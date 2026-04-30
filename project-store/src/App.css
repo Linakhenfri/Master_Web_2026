@@ -1,0 +1,81 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: #fff7ed; /* background */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #b84474aa); /* primary */
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #ebe7cbaa); /* secondary */
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+  background-color: #ebe7cb; /* secondary */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.read-the-docs {
+  color: #b84474; /* primary */
+  text-decoration: underline;
+}
+
+button {
+  background-color: #b84474; /* primary */
+  color: #fff; /* textWhite */
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #8c385c; /* primary أغمق للـhover */
+}
+
+.bg-secondary {
+  background-color: #ebe7cb; /* secondary */
+}
+
+.bg-background {
+  background-color: #fff7ed; /* background */
+}
+
+.text-primary {
+  color: #b84474;
+}
+
+.text-secondary {
+  color: #ebe7cb;
+}
+
+.text-dark {
+  color: #1f2937;
+}
