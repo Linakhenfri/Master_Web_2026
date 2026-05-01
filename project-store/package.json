@@ -17,6 +17,7 @@
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",
   "dependencies": {
+    "@tailwindcss/vite": "^4.2.4",
     "baseline-browser-mapping": "^2.10.0",
     "browserslist": "^4.28.1",
     "caniuse-lite": "^1.0.30001774",
