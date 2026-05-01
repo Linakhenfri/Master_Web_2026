@@ -10,7 +10,7 @@ export default function Admin() {
     if (localStorage.getItem('isAdmin') !== 'true') navigate('/login');
 
     // Fetch initial list
-    fetch(`${import.meta.env.VITE_API_URL}/products`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then(res => res.json())
       .then(data => setProducts(data));
   }, [navigate]);
