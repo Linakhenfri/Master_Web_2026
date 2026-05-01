@@ -8,10 +8,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.4",
-    "autoprefixer": "^10.4.0",
+    "autoprefixer": "^10.5.0",
     "nodemon": "^3.1.14",
-    "postcss": "^8.4.0",
-    "tailwindcss": "^3.3.3",
+    "postcss": "^8.5.13",
+    "tailwindcss": "^3.4.19",
     "vite": "^7.3.1"
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
@@ -62,11 +62,6 @@
     "update-browserslist-db": "^1.2.3",
     "yallist": "^3.1.1"
   },
-  
-  "overrides": {
-    "lightningcss": "latest"
-  },
-
   "keywords": [],
   "author": "",
   "license": "ISC"
