@@ -8,24 +8,34 @@ export const ProductProvider = ({ children }) => {
   const [sortOption, setSortOption] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // 🔥 مصدر واحد فقط: backend
   useEffect(() => {
-    fetch("https://dummyjson.com/products")
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data.products);
-        setLoading(false);
-      })
-      .catch(err => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/products`
+        );
+        const data = await res.json();
+
+        setProducts(data);
+      } catch (err) {
         console.error("Error fetching products:", err);
+        setProducts([]);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter(product =>
+  // 🔍 search
+  const filtered = products.filter((product) =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  // 🔃 sort
+  const sortedProducts = [...filtered].sort((a, b) => {
     if (sortOption === "lowToHigh") return a.price - b.price;
     if (sortOption === "highToLow") return b.price - a.price;
     if (sortOption === "AtoZ") return a.title.localeCompare(b.title);
@@ -40,7 +50,7 @@ export const ProductProvider = ({ children }) => {
         setSearchTerm,
         sortOption,
         setSortOption,
-        loading
+        loading,
       }}
     >
       {children}
