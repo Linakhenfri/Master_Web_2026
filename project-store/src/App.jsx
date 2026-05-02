@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CartProvider from "./context/CartContext";
 import WishlistProvider from "./context/WishlistContext";
 import ProductProvider from "./context/ProductContext";
-import DarkModeProvider from "./context/DarkModeContext";
+
 
 import Navbar from "./components/Navbar";
 import Footer from "./layouts/Footer";
