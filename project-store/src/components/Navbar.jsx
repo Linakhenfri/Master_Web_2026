@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { WishlistContext } from "../context/WishlistContext";
 import { ProductContext } from "../context/ProductContext";
@@ -12,6 +12,7 @@ export default function Navbar() {
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   const [input, setInput] = useState("");
+  const navigate = useNavigate();
 
   // 🔍 search handler
   const handleSearch = (e) => {
@@ -30,6 +31,25 @@ export default function Navbar() {
       localStorage.setItem("darkMode", "true");
     }
     setDarkMode(!darkMode);
+  };
+
+  // 🔐 check login
+  const token = localStorage.getItem("token");
+
+  let user = null;
+
+  if (token) {
+    try {
+      user = JSON.parse(atob(token.split(".")[1]));
+    } catch (err) {
+      user = null;
+    }
+  }
+
+  // 🚪 logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   return (
@@ -73,13 +93,32 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Admin */}
-        <Link
-          to="/login"
-          className="hover:text-primary transition text-textDark dark:text-gray-100"
-        >
-          Admin
-        </Link>
+        {/* 👑 Admin link (only if admin) */}
+        {user?.role === "admin" && (
+          <Link
+            to="/admin"
+            className="hover:text-primary transition text-textDark dark:text-gray-100"
+          >
+            Admin
+          </Link>
+        )}
+
+        {/* 🔐 Login / Logout */}
+        {!token ? (
+          <Link
+            to="/login"
+            className="hover:text-primary transition text-textDark dark:text-gray-100"
+          >
+            Login
+          </Link>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="hover:text-red-500 transition text-textDark dark:text-gray-100"
+          >
+            Logout
+          </button>
+        )}
 
         {/* 🌙 Dark Mode */}
         <button
