@@ -10,7 +10,6 @@ export default function CheckoutForm({ cart, onSuccess }) {
 
   const [errors, setErrors] = useState({});
 
-  // 🔥 SAFE API (no env problems in Vercel)
   const API_URL = "https://dzshop-backend.onrender.com";
 
   const handleChange = (e) => {
@@ -48,10 +47,9 @@ export default function CheckoutForm({ cart, onSuccess }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token || "",
+          Authorization: token ? `Bearer ${token}` : "",
         },
         body: JSON.stringify({
-          userId: 1,
           items,
         }),
       });
@@ -79,18 +77,10 @@ export default function CheckoutForm({ cart, onSuccess }) {
       />
       {errors.fullName && <p className="text-red-500">{errors.fullName}</p>}
 
-      <input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-      />
+      <input name="email" placeholder="Email" onChange={handleChange} />
       {errors.email && <p className="text-red-500">{errors.email}</p>}
 
-      <input
-        name="address"
-        placeholder="Address"
-        onChange={handleChange}
-      />
+      <input name="address" placeholder="Address" onChange={handleChange} />
       {errors.address && <p className="text-red-500">{errors.address}</p>}
 
       <input
