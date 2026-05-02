@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
-import { WishlistProvider } from "./context/WishlistContext";
-import { ProductProvider } from "./context/ProductContext.jsx";
-import { DarkModeProvider } from "./context/DarkModeContext";
+import CartProvider from "./context/CartContext";
+import WishlistProvider from "./context/WishlistContext";
+import ProductProvider from "./context/ProductContext";
+import DarkModeProvider from "./context/DarkModeContext";
 
 import Navbar from "./components/Navbar";
 import Footer from "./layouts/Footer";
@@ -23,7 +23,7 @@ export default function App() {
             <Router>
               <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
                 <Navbar />
-                {/* Main content takes up remaining space to push footer down */}
+
                 <main className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
@@ -34,6 +34,7 @@ export default function App() {
                     <Route path="/admin" element={<Admin />} />
                   </Routes>
                 </main>
+
                 <Footer />
               </div>
             </Router>
