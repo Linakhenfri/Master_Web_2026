@@ -8,28 +8,32 @@ export const ProductProvider = ({ children }) => {
   const [sortOption, setSortOption] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // 🔥 مصدر واحد فقط: backend
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("");
+
+  // 🔥 Fetch products (pagination + filter)
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/products?page=${page}&limit=10&category=${category}`
+      );
+
+      const data = await res.json();
+      setProducts(data);
+
+    } catch (err) {
+      console.error("Error fetching products:", err);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/products`
-        );
-        const data = await res.json();
-
-        setProducts(data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
-  }, []);
+  }, [page, category]);
 
-  // 🔍 search
+  // 🔍 search (frontend)
   const filtered = products.filter((product) =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -51,6 +55,10 @@ export const ProductProvider = ({ children }) => {
         sortOption,
         setSortOption,
         loading,
+        page,
+        setPage,
+        category,
+        setCategory,
       }}
     >
       {children}
