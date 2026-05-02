@@ -11,7 +11,6 @@ export const ProductProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
 
-  // 🔥 Fetch products (pagination + filter)
   const fetchProducts = async () => {
     try {
       const res = await fetch(
@@ -19,7 +18,9 @@ export const ProductProvider = ({ children }) => {
       );
 
       const data = await res.json();
-      setProducts(data);
+
+      // 🔥 SAFE FIX (important)
+      setProducts(Array.isArray(data.products) ? data.products : []);
 
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -33,12 +34,12 @@ export const ProductProvider = ({ children }) => {
     fetchProducts();
   }, [page, category]);
 
-  // 🔍 search (frontend)
-  const filtered = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  // 🔍 SEARCH SAFE
+  const filtered = (products || []).filter((product) =>
+    product?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // 🔃 sort
+  // 🔃 SORT
   const sortedProducts = [...filtered].sort((a, b) => {
     if (sortOption === "lowToHigh") return a.price - b.price;
     if (sortOption === "highToLow") return b.price - a.price;
