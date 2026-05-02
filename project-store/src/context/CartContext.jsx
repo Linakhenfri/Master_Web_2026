@@ -5,7 +5,7 @@ export const CartContext = createContext();
 export default function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  // ➕ Add to cart مع quantity
+  // ➕ Add to cart
   const addToCart = (product) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
@@ -27,7 +27,7 @@ export default function CartProvider({ children }) {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // ➖ نقص quantity
+  // ➖ decrease quantity
   const decreaseQty = (id) => {
     setCart((prev) =>
       prev
