@@ -11,16 +11,25 @@ export const ProductProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
 
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://dzshop-backend.onrender.com";
+
   const fetchProducts = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/products?page=${page}&limit=10&category=${category}`
+        `${API_URL}/api/products?page=${page}&limit=10&category=${category}`
       );
 
       const data = await res.json();
 
       // 🔥 SAFE FIX (important)
-      setProducts(Array.isArray(data.products) ? data.products : []);
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else if (Array.isArray(data.products)) {
+        setProducts(data.products);
+      } else {
+        setProducts([]);
+      }
 
     } catch (err) {
       console.error("Error fetching products:", err);
