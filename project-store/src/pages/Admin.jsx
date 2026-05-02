@@ -6,14 +6,30 @@ export default function Admin() {
   const [products, setProducts] = useState([]);
 
   // Route Protection Check
-  useEffect(() => {
-    if (localStorage.getItem('isAdmin') !== 'true') navigate('/login');
+ useEffect(() => {
+  const token = localStorage.getItem("token");
 
-    // Fetch initial list
+  if (!token) {
+    navigate("/login");
+    return;
+  }
+
+  try {
+    const user = JSON.parse(atob(token.split(".")[1]));
+
+    if (user.role !== "admin") {
+      navigate("/");
+      return;
+    }
+
     fetch(`${import.meta.env.VITE_API_URL}/api/products`)
-      .then(res => res.json())
-      .then(data => setProducts(data));
-  }, [navigate]);
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+
+  } catch (err) {
+    navigate("/login");
+  }
+}, [navigate]);
 
   const deleteProduct = (id) => {
     setProducts(products.filter(p => p.id !== id));
