@@ -7,7 +7,7 @@ export default function Cart() {
   const [showCheckout, setShowCheckout] = useState(false);
 
   const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.price * (item.quantity || 1),
     0
   );
 
