@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const ProductContext = createContext();
 
-export const ProductProvider = ({ children }) => {
+export default function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
