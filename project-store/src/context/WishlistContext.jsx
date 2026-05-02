@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const WishlistContext = createContext();
 
-export const WishlistProvider = ({ children }) => {
+export default function WishlistProvider({ children }) {
   const [wishlist, setWishlist] = useState([]);
 
   // استرجاع من LocalStorage عند البداية
