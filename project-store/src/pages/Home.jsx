@@ -14,13 +14,14 @@ export default function Home() {
   }
 
   return (
-    <div className="p-8 bg-background min-h-screen">
+    <div className="p-8 min-h-screen">
 
-      {/* Products */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
+        
+        {Array.isArray(products) && products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
+
       </div>
 
     </div>
