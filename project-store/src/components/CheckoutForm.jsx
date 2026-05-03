@@ -35,6 +35,8 @@ export default function CheckoutForm({ cart, onSuccess }) {
 
     const token = localStorage.getItem("token");
 
+    console.log("TOKEN:", token); // 🔍 debug مهم
+
     if (!token) {
       alert("Please login first");
       return;
@@ -46,31 +48,56 @@ export default function CheckoutForm({ cart, onSuccess }) {
       price: item.price,
     }));
 
-    const res = await fetch(`${API_URL}/api/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ items }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/api/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ items }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
+      console.log("ORDER RESPONSE:", data); // 🔍 مهم
+
+      if (!res.ok) {
+        alert(data.error || data.message || "Order failed");
+        return;
+      }
+
       alert("Order successful!");
       onSuccess();
-    } else {
-      alert(data.error || "Order failed");
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="fullName" placeholder="Full Name" onChange={handleChange} />
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input name="address" placeholder="Address" onChange={handleChange} />
-      <input name="cardNumber" placeholder="Card Number" onChange={handleChange} />
+      <input
+        name="fullName"
+        placeholder="Full Name"
+        onChange={handleChange}
+      />
+      <input
+        name="email"
+        placeholder="Email"
+        onChange={handleChange}
+      />
+      <input
+        name="address"
+        placeholder="Address"
+        onChange={handleChange}
+      />
+      <input
+        name="cardNumber"
+        placeholder="Card Number"
+        onChange={handleChange}
+      />
 
       <button type="submit">Confirm Purchase</button>
     </form>
