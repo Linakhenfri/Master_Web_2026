@@ -22,12 +22,18 @@ export default function CartProvider({ children }) {
     });
   };
 
-  // ❌ Remove
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+  // ➕ Increase quantity
+  const increaseQty = (id) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, quantity: (item.quantity || 1) + 1 }
+          : item
+      )
+    );
   };
 
-  // ➖ decrease quantity
+  // ➖ Decrease quantity
   const decreaseQty = (id) => {
     setCart((prev) =>
       prev
@@ -40,9 +46,20 @@ export default function CartProvider({ children }) {
     );
   };
 
+  // ❌ Remove item
+  const removeFromCart = (id) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, decreaseQty }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        decreaseQty,
+        increaseQty,
+      }}
     >
       {children}
     </CartContext.Provider>
