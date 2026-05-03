@@ -3,7 +3,9 @@ import { CartContext } from "../context/CartContext";
 import CheckoutForm from "../components/CheckoutForm";
 
 export default function Cart() {
-  const { cart, removeFromCart, decreaseQty } = useContext(CartContext);
+  const { cart, removeFromCart, decreaseQty, increaseQty } =
+    useContext(CartContext);
+
   const [showCheckout, setShowCheckout] = useState(false);
 
   const totalPrice = cart.reduce(
@@ -20,33 +22,70 @@ export default function Cart() {
       ) : (
         <>
           {cart.map((item) => (
-            <div key={item.id} className="flex justify-between mb-2">
+            <div
+              key={item.id}
+              className="flex justify-between items-center mb-4 border-b pb-3"
+            >
+              {/* product info */}
               <div>
-                <h3>{item.title}</h3>
-                <p>Qty: {item.quantity}</p>
-                <p>${item.price}</p>
+                <h3 className="font-semibold">{item.title}</h3>
+                <p className="text-sm text-gray-600">
+                  ${item.price}
+                </p>
               </div>
 
-              <div className="flex gap-2">
-                <button onClick={() => decreaseQty(item.id)}>-</button>
-                <button onClick={() => removeFromCart(item.id)}>Remove</button>
+              {/* quantity controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => decreaseQty(item.id)}
+                  className="px-3 py-1 bg-gray-200 rounded"
+                >
+                  -
+                </button>
+
+                <span className="font-bold">
+                  {item.quantity || 1}
+                </span>
+
+                <button
+                  onClick={() => increaseQty(item.id)}
+                  className="px-3 py-1 bg-gray-200 rounded"
+                >
+                  +
+                </button>
               </div>
+
+              {/* remove */}
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="px-3 py-1 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
             </div>
           ))}
 
-          <h2>Total: ${totalPrice.toFixed(2)}</h2>
+          <h2 className="text-xl font-bold mt-4">
+            Total: ${totalPrice.toFixed(2)}
+          </h2>
 
-          <button onClick={() => setShowCheckout(true)}>
+          <button
+            onClick={() => setShowCheckout(true)}
+            className="mt-4 bg-primary text-white px-4 py-2 rounded cursor-pointer hover:opacity-90"
+          >
             Proceed to Checkout
           </button>
         </>
       )}
 
+      {/* Checkout */}
       {showCheckout && (
-        <CheckoutForm
-          cart={cart}
-          onSuccess={() => setShowCheckout(false)}
-        />
+        <div className="mt-6 p-4 border rounded bg-white shadow-lg">
+          <CheckoutForm
+            cart={cart}
+            onSuccess={() => setShowCheckout(false)}
+          />
+        </div>
       )}
     </div>
   );
