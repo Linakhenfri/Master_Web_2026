@@ -8,34 +8,32 @@ export default function CheckoutForm({ cart, onSuccess }) {
     cardNumber: "",
   });
 
-  const [errors, setErrors] = useState({});
   const API_URL = "https://dzshop-backend.onrender.com";
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const validate = () => {
-    const newErrors = {};
-
-    if (!formData.fullName) newErrors.fullName = "Required";
-    if (!formData.email) newErrors.email = "Required";
-    if (!formData.address) newErrors.address = "Required";
-    if (!/^\d{16}$/.test(formData.cardNumber))
-      newErrors.cardNumber = "Invalid card";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!formData.fullName) return false;
+    if (!formData.email) return false;
+    if (!formData.address) return false;
+    if (!/^\d{16}$/.test(formData.cardNumber)) return false;
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validate()) return;
+    if (!validate()) {
+      alert("Please fill all fields correctly");
+      return;
+    }
 
     const token = localStorage.getItem("token");
-
-    console.log("TOKEN:", token); // 🔍 debug مهم
 
     if (!token) {
       alert("Please login first");
@@ -60,14 +58,12 @@ export default function CheckoutForm({ cart, onSuccess }) {
 
       const data = await res.json();
 
-      console.log("ORDER RESPONSE:", data); // 🔍 مهم
-
       if (!res.ok) {
         alert(data.error || data.message || "Order failed");
         return;
       }
 
-      alert("Order successful!");
+      alert("🎉 Order placed successfully!");
       onSuccess();
 
     } catch (err) {
@@ -77,29 +73,44 @@ export default function CheckoutForm({ cart, onSuccess }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-3"
+    >
       <input
         name="fullName"
         placeholder="Full Name"
         onChange={handleChange}
+        className="border p-2 rounded"
       />
+
       <input
         name="email"
         placeholder="Email"
         onChange={handleChange}
+        className="border p-2 rounded"
       />
+
       <input
         name="address"
         placeholder="Address"
         onChange={handleChange}
-      />
-      <input
-        name="cardNumber"
-        placeholder="Card Number"
-        onChange={handleChange}
+        className="border p-2 rounded"
       />
 
-      <button type="submit">Confirm Purchase</button>
+      <input
+        name="cardNumber"
+        placeholder="Card Number (16 digits)"
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+
+      <button
+        type="submit"
+        className="bg-primary text-white px-6 py-3 rounded-lg font-bold cursor-pointer hover:opacity-90"
+      >
+        Confirm Purchase
+      </button>
     </form>
   );
 }
