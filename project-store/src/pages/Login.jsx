@@ -6,46 +6,37 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const API_URL =
-    import.meta.env.VITE_API_URL || "https://dzshop-backend.onrender.com";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+    const res = await fetch(`${API_URL}/api/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      } else {
-        alert(data.message || "Login failed");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error connecting to server");
+    if (res.ok) {
+      localStorage.setItem("token", data.token);
+      navigate("/");
+    } else {
+      alert(data.message || "Login failed");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <form onSubmit={handleLogin} className="flex flex-col gap-4 w-80">
-        
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+    <div className="p-8">
+      <h1>Login</h1>
 
+      <form onSubmit={handleLogin} className="flex flex-col gap-3">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2"
-          required
         />
 
         <input
@@ -53,14 +44,9 @@ export default function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2"
-          required
         />
 
-        <button type="submit" className="bg-blue-500 text-white p-2">
-          Login
-        </button>
-
+        <button type="submit">Login</button>
       </form>
     </div>
   );
